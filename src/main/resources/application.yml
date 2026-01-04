@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/tlias
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 10MB #单个文件上传大小限制
+      max-request-size: 100MB #单个请求最大文件大小限制（一个请求可以是上传多个文件）
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰命名自动映射开关 dept_id -> deptId
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #配置 Mybatis 的日志，输出到控制台
+
+#aliyun:
+#  oss:
+#    endpoint:
+#    accessKeyId:
+#    accessKeySecret:
+#    bucketName:
+aliyun:
+  oss:
+    access-key-id:
+    endpoint:
+    access-key-secret:
+    bucket-name:
+
