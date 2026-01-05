@@ -26,4 +26,8 @@ public class Result<T> {
     public static <T> Result<T> error() {
         return new Result<>(0, "error", null);
     }
+
+    public static <T> Result<T> error(String msg) {
+        return new Result<>(0, msg, null);
+    }
 }

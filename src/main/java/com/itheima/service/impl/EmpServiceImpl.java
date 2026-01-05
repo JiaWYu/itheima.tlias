@@ -86,5 +86,11 @@ public PageBean page(Integer page, Integer pageSize, String name, Short gender, 
         empMapper.update(emp);
     }
 
+    @Override
+    public Emp login(Emp emp) {
+        return empMapper.getByUsernameAndPassword(emp);
+
+    }
+
 
 }

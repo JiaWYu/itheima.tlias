@@ -1,30 +1,23 @@
-package com.itheima;
+package com.itheima.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@SpringBootTest
-class TliasApplicationTests {
-
-
+public class JWTUtils {
     /**
      * 过期时间(单位:秒)
      */
-    public static final int ACCESS_EXPIRE = 3600 * 24;
+    public static final int ACCESS_EXPIRE = 3600;
     /**
      * 加密算法
      */
@@ -34,10 +27,12 @@ class TliasApplicationTests {
      * 一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
      * 应该大于等于 256位(长度32及以上的字符串)，并且是随机的字符串
      */
+
+    private final static String SECRET;
     /**
      * 秘钥实例
      */
-    public static final SecretKey KEY = Keys.hmacShaKeyFor(new byte[32]);
+    public static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
     /**
      * jwt签发者
      */
@@ -57,20 +52,19 @@ class TliasApplicationTests {
     iat: jwt的签发时间
     jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击
      */
-//    @Test
-    public String genAccessToken() {
+    public static String genAccessToken(Map<String , Object> claims) {
         // 令牌id
         String uuid = UUID.randomUUID().toString();
         Date exprireDate = Date.from(Instant.now().plusSeconds(ACCESS_EXPIRE));
 
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 // 设置头部信息header
                 .header()
                 .add("typ", "JWT")
                 .add("alg", "HS256")
                 .and()
                 // 设置自定义负载信息payload
-                .claim("username", "voyager-yu")
+                .claims(claims)
                 // 令牌ID
                 .id(uuid)
                 // 过期日期
@@ -84,17 +78,25 @@ class TliasApplicationTests {
                 // 签名
                 .signWith(KEY, ALGORITHM)
                 .compact();
-
-        System.out.println(jwt);
-        return jwt;
+    }
+    /**
+     * 解析token
+     * @param token token
+     * @return Jws<Claims>
+     */
+    public static Jws<Claims> parseClaim(String token) {
+        return Jwts.parser()
+                .verifyWith(KEY)
+                .build()
+                .parseSignedClaims(token);
     }
 
-    @Test
-    public void parseJWTClaims (){
+    public static JwsHeader parseHeader(String token) {
+        return parseClaim(token).getHeader();
+    }
 
-        Jws<Claims> claims = Jwts.parser().verifyWith(KEY).build().parseSignedClaims(genAccessToken());
-        System.out.println(claims);
-
+    public static Claims parsePayload(String token) {
+        return parseClaim(token).getPayload();
     }
 
 }

@@ -2,7 +2,12 @@ package com.itheima;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebServlet;
+
+@ServletComponentScan //扫描Filter
 @SpringBootApplication
 public class TliasApplication {
 
