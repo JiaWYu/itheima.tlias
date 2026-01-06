@@ -28,7 +28,7 @@ public class JWTUtils {
      * 应该大于等于 256位(长度32及以上的字符串)，并且是随机的字符串
      */
 
-    private final static String SECRET;
+    private final static String SECRET = "voyager-y-USTC-2026-chenchunyan1";
     /**
      * 秘钥实例
      */

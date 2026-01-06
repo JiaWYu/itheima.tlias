@@ -55,6 +55,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             log.info("JWT令牌解析失败，未登录。。。。");
             Result res = Result.error("NOT_LOGIN");
             //手动将对象转换为json格式 ------------> 阿里巴巴fastJSON
+            /*
+            Controller类中有@RestController注解,其中包含了@ResponseBody注解,该注解会将方法返回值转换为json然后返回，故不用手动转换
+             */
             String noLogin = JSONObject.toJSONString(res);
             //设置响应信息
             response.getWriter().write(noLogin);

@@ -81,6 +81,11 @@ public class EmpController {
         return Result.success(emp);
     }
 
+    /**
+     * 修改员工信息
+     * @param emp
+     * @return
+     */
     @PutMapping
     public Result update(@RequestBody Emp emp) {
 
