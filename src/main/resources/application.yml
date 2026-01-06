@@ -17,12 +17,7 @@ mybatis:
     map-underscore-to-camel-case: true #开启驼峰命名自动映射开关 dept_id -> deptId
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #配置 Mybatis 的日志，输出到控制台
 
-#aliyun:
-#  oss:
-#    endpoint:
-#    accessKeyId:
-#    accessKeySecret:
-#    bucketName:
+#阿里云OSS
 aliyun:
   oss:
     access-key-id:
@@ -30,3 +25,7 @@ aliyun:
     access-key-secret:
     bucket-name:
 
+#spring事务管理日志
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug

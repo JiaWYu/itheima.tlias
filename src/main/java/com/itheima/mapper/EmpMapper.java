@@ -1,10 +1,7 @@
 package com.itheima.mapper;
 
 import com.itheima.pojo.Emp;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,20 +17,59 @@ public interface EmpMapper {
 
     //PageHelper
 //    @Select("select * from tb_emp")
+
+    /**
+     * 条件查询员工信息
+     * @param name
+     * @param gender
+     * @param begin
+     * @param end
+     * @return
+     */
     public List<Emp> list(@Param("name") String name,@Param("gender") Short gender,
                           @Param("begin") LocalDate begin,@Param("end") LocalDate end);
 
+    /**
+     * 根据id批量删除员工
+     * @param ids
+     */
     void delete(@Param("ids") List<Integer> ids);
 
+    /**
+     * 新增员工
+     * @param emp
+     */
     @Insert("insert into tb_emp (username, name, gender, image, job, entrydate, dept_id, create_time, update_time) " +
             "VALUES (#{username},#{name},#{gender},#{image},#{job},#{entrydate},#{deptId},#{createTime},#{updateTime})")
     void insert(Emp emp);
 
+    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
     @Select("select * from tb_emp where id = #{id}")
     Emp getById(Integer id);
 
+    /**
+     * 更新员工信息
+     * @param emp
+     */
     void update(Emp emp);
 
+    /**
+     * 根据用户名及密码查询员工
+     * @param emp
+     * @return
+     */
     @Select("select * from tb_emp where username = #{username} and password = #{password}")
     Emp getByUsernameAndPassword(Emp emp);
+
+    /**
+     * 根据部门id删除员工
+     * @param deptId
+     */
+    @Delete("delete from tb_emp where id = #{deptId}")
+    void deleteByDeptId(Integer deptId);
+
 }

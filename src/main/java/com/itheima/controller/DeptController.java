@@ -6,6 +6,7 @@ import com.itheima.service.DeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class DeptController {
 
     /**
      * 根据id删除部门
+     * 需求：解散部门时，无论是成功还是失败，都要记录操作日志。
      * @param id
      * @return
      */
@@ -52,6 +54,7 @@ public class DeptController {
         log.info("根据id删除部门：{}",id);
         deptService.deleteById(id);
         return Result.success();
+
     }
 
 
